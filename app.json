@@ -1,0 +1,39 @@
+{
+  "id": "552d2d74-e594-42e4-94d0-6a0b02bebb95",
+  "name": "Stock Card",
+  "publisher": "Default publisher",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id": "178095c4-e347-4167-9a3e-21a02215bf85",
+      "publisher": "Triple P Application Co., Ltd.",
+      "name": "Tax localization for Thailand (VAT & WHT)",
+      "version": "20.0.0.13"
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "20.0.0.0",
+  "idRanges": [
+    {
+      "from": 56150,
+      "to": 56160
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "9.1",
+  "features": [
+    "NoImplicitWith"
+  ]
+}
