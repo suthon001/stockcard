@@ -41,19 +41,23 @@ report 56151 "Stock Card Detail New"
 
                 trigger OnAfterGetRecord()
                 begin
-                    SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
+                    // SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
-                    if "Entry Type" = "Entry Type"::Purchase then
-                        if ExpacCost then
-                            if "Invoiced Quantity" = 0 then
-                                CurrReport.Skip();
+                    // if "Entry Type" = "Entry Type"::Purchase then
+                    //     if not ExpacCost then
+                    //         if "Invoiced Quantity" = 0 then
+                    //             CurrReport.Skip();
                     EntryNo += 1;
                     TempolalyLedger.INIT;
                     TempolalyLedger.TRANSFERFIELDS("Item Ledger Positive");
-                    TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card";
+                    if ExpacCost then
+                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card" + "Item Ledger Positive"."Cost Amount (Expected)"
+                    else
+                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card";
                     TempolalyLedger."TPP Check Positive" := FALSE;
                     TempolalyLedger."Entry No." := EntryNo;
                     TempolalyLedger.INSERT;
+                    //Message('%1 %2', TempolalyLedger.Quantity, TempolalyLedger."TPP Cost Amount Stock Card 2");
                 end;
             }
             dataitem("Item Ledger Negative"; "Item Ledger Entry")
@@ -69,16 +73,19 @@ report 56151 "Stock Card Detail New"
 
                 trigger OnAfterGetRecord()
                 begin
-                    SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
+                    // SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     EntryNo += 1;
-                    if "Entry Type" = "Entry Type"::Sale then
-                        if ExpacCost then
-                            if "Invoiced Quantity" = 0 then
-                                CurrReport.Skip();
+                    // if "Entry Type" = "Entry Type"::Sale then
+                    //     if ExpacCost then
+                    //         if "Invoiced Quantity" = 0 then
+                    //             CurrReport.Skip();
                     TempolalyLedger.INIT;
                     TempolalyLedger.TRANSFERFIELDS("Item Ledger Negative");
-                    TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Negative"."TPP Cost Amount Stock Card";
+                    if ExpacCost then
+                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Negative"."TPP Cost Amount Stock Card" + "Item Ledger Negative"."Cost Amount (Expected)"
+                    else
+                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Negative"."TPP Cost Amount Stock Card";
                     TempolalyLedger."TPP Check Positive" := TRUE;
                     TempolalyLedger."Entry No." := EntryNo;
                     TempolalyLedger.INSERT;
@@ -293,7 +300,7 @@ report 56151 "Stock Card Detail New"
                     }
                     field(ExpacCost; ExpacCost)
                     {
-                        Caption = 'Exclude Expected Cost';
+                        Caption = 'Include Expected Cost';
                         ApplicationArea = all;
                     }
                 }
