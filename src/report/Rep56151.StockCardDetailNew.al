@@ -41,17 +41,20 @@ report 56151 "Stock Card Detail New"
 
                 trigger OnAfterGetRecord()
                 begin
-                    // SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
+                    if not ExpacCost then
+                        SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
-                    // if "Entry Type" = "Entry Type"::Purchase then
-                    //     if not ExpacCost then
-                    //         if "Invoiced Quantity" = 0 then
-                    //             CurrReport.Skip();
+                    if "Entry Type" = "Entry Type"::Purchase then
+                        if not ExpacCost then
+                            if "Item Ledger Positive"."TPP Cost Amount Stock Card" = 0 then
+                                CurrReport.Skip();
+
+
                     EntryNo += 1;
                     TempolalyLedger.INIT;
                     TempolalyLedger.TRANSFERFIELDS("Item Ledger Positive");
                     if ExpacCost then
-                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card" + "Item Ledger Positive"."Cost Amount (Expected)"
+                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card"
                     else
                         TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card";
                     TempolalyLedger."TPP Check Positive" := FALSE;
@@ -73,13 +76,14 @@ report 56151 "Stock Card Detail New"
 
                 trigger OnAfterGetRecord()
                 begin
-                    // SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
+                    if not ExpacCost then
+                        SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     EntryNo += 1;
-                    // if "Entry Type" = "Entry Type"::Sale then
-                    //     if ExpacCost then
-                    //         if "Invoiced Quantity" = 0 then
-                    //             CurrReport.Skip();
+                    if "Entry Type" = "Entry Type"::Sale then
+                        if not ExpacCost then
+                            if "Item Ledger Negative"."TPP Cost Amount Stock Card" = 0 then
+                                CurrReport.Skip();
                     TempolalyLedger.INIT;
                     TempolalyLedger.TRANSFERFIELDS("Item Ledger Negative");
                     if ExpacCost then
