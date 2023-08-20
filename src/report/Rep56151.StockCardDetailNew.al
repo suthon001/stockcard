@@ -26,73 +26,104 @@ report 56151 "Stock Card Detail New"
             column(InvPostingGroup; "Inventory Posting Group") { }
             column(InvPostingDescription; InvName) { }
 
-            dataitem("Item Ledger Positive"; "Item Ledger Entry")
+            dataitem("Item Ledger Positive"; "Value Entry")
             {
-                DataItemTableView = SORTING("Item No.", "Posting Date") WHERE("Entry Type" = FILTER(<> Transfer), Quantity = FILTER(>= 0));
+                DataItemTableView = SORTING("Item No.", "Posting Date") WHERE("Item Ledger Entry Type" = FILTER(<> Transfer), "Item Ledger Entry Quantity" = FILTER(>= 0));
                 DataItemLink = "Item No." = FIELD("No.");
                 column(BeginingQty; BegQty) { }
                 column(BeginingAmt; BegAmt) { }
                 trigger OnPreDataItem()
                 begin
-                    SETRANGE("Posting Date", BeginDate, EndDate);
+                    if not ExpacCost then
+                        SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
+                    else
+                        SETRANGE("Posting Date", BeginDate, EndDate);
                     IF LocationFilter <> '' THEN
                         SETFILTER("Location Code", LocationFilter);
                 end;
 
                 trigger OnAfterGetRecord()
+                var
+                    ltItemLedgerEntry: Record "Item Ledger Entry";
+
                 begin
+                    ltItemLedgerEntry.GET("Item Ledger Entry No.");
                     if not ExpacCost then
-                        SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
-                    CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
-                    if "Entry Type" = "Entry Type"::Purchase then
+                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
+                    else
+                        ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
+                    if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Purchase then
                         if not ExpacCost then
-                            if "Item Ledger Positive"."TPP Cost Amount Stock Card" = 0 then
+                            if ltItemLedgerEntry."TPP Cost Amount Stock Card" = 0 then
                                 CurrReport.Skip();
 
 
-                    EntryNo += 1;
-                    TempolalyLedger.INIT;
-                    TempolalyLedger.TRANSFERFIELDS("Item Ledger Positive");
-                    if ExpacCost then
-                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card"
-                    else
-                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Positive"."TPP Cost Amount Stock Card";
-                    TempolalyLedger."TPP Check Positive" := FALSE;
-                    TempolalyLedger."Entry No." := EntryNo;
-                    TempolalyLedger.INSERT;
-                    //Message('%1 %2', TempolalyLedger.Quantity, TempolalyLedger."TPP Cost Amount Stock Card 2");
+
+                    TempolalyLedger.reset();
+                    TempolalyLedger.SetRange("Ref. Entry No.", ltItemLedgerEntry."Entry No.");
+                    if TempolalyLedger.IsEmpty then begin
+                        EntryNo += 1;
+                        TempolalyLedger.INIT;
+                        TempolalyLedger.TRANSFERFIELDS(ltItemLedgerEntry);
+                        if ExpacCost then
+                            TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card" + ltItemLedgerEntry."Cost Amount (Expected)"
+                        else
+                            TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card";
+                        TempolalyLedger."TPP Check Positive" := FALSE;
+                        TempolalyLedger."Entry No." := EntryNo;
+                        TempolalyLedger."Ref. Entry No." := ltItemLedgerEntry."Entry No.";
+                        TempolalyLedger.INSERT;
+                    end;
+
                 end;
             }
-            dataitem("Item Ledger Negative"; "Item Ledger Entry")
+            dataitem("Item Ledger Negative"; "Value Entry")
             {
-                DataItemTableView = SORTING("Item No.", "Posting Date") WHERE("Entry Type" = FILTER(<> Transfer), Quantity = FILTER(< 0));
+                DataItemTableView = SORTING("Item No.", "Posting Date") WHERE("Item Ledger Entry Type" = FILTER(<> Transfer), "Item Ledger Entry Quantity" = FILTER(< 0));
                 DataItemLink = "Item No." = FIELD("No.");
                 trigger OnPreDataItem()
                 begin
-                    SETRANGE("Posting Date", BeginDate, EndDate);
+                    if not ExpacCost then
+                        SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
+                    else
+                        SETRANGE("Posting Date", BeginDate, EndDate);
                     IF LocationFilter <> '' THEN
                         SETFILTER("Location Code", LocationFilter);
                 end;
 
                 trigger OnAfterGetRecord()
+                var
+                    ltItemLedgerEntry: Record "Item Ledger Entry";
+
                 begin
+                    ltItemLedgerEntry.GET("Item Ledger Entry No.");
                     if not ExpacCost then
-                        SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
-                    CALCFIELDS("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
-                    EntryNo += 1;
-                    if "Entry Type" = "Entry Type"::Sale then
-                        if not ExpacCost then
-                            if "Item Ledger Negative"."TPP Cost Amount Stock Card" = 0 then
-                                CurrReport.Skip();
-                    TempolalyLedger.INIT;
-                    TempolalyLedger.TRANSFERFIELDS("Item Ledger Negative");
-                    if ExpacCost then
-                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Negative"."TPP Cost Amount Stock Card" + "Item Ledger Negative"."Cost Amount (Expected)"
+                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
                     else
-                        TempolalyLedger."TPP Cost Amount Stock Card 2" := "Item Ledger Negative"."TPP Cost Amount Stock Card";
-                    TempolalyLedger."TPP Check Positive" := TRUE;
-                    TempolalyLedger."Entry No." := EntryNo;
-                    TempolalyLedger.INSERT;
+                        ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
+                    if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Sale then
+                        if not ExpacCost then
+                            if ltItemLedgerEntry."TPP Cost Amount Stock Card" = 0 then
+                                CurrReport.Skip();
+
+                    TempolalyLedger.reset();
+                    TempolalyLedger.SetRange("Ref. Entry No.", ltItemLedgerEntry."Entry No.");
+                    if TempolalyLedger.IsEmpty then begin
+                        EntryNo += 1;
+                        TempolalyLedger.INIT;
+                        TempolalyLedger.TRANSFERFIELDS(ltItemLedgerEntry);
+                        if ExpacCost then
+                            TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card" + ltItemLedgerEntry."Cost Amount (Expected)"
+                        else
+                            TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card";
+                        TempolalyLedger."TPP Check Positive" := True;
+                        TempolalyLedger."Entry No." := EntryNo;
+                        TempolalyLedger."Ref. Entry No." := ltItemLedgerEntry."Entry No.";
+                        TempolalyLedger.INSERT;
+                    end;
+
                 end;
             }
             dataitem("Item Ledger Transfer"; "Item Ledger Entry")
