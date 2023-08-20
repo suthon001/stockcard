@@ -40,6 +40,7 @@ report 56151 "Stock Card Detail New"
                         SETRANGE("Posting Date", BeginDate, EndDate);
                     IF LocationFilter <> '' THEN
                         SETFILTER("Location Code", LocationFilter);
+
                 end;
 
                 trigger OnAfterGetRecord()
