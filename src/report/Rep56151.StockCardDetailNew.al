@@ -75,6 +75,7 @@ report 56151 "Stock Card Detail New"
                         TempolalyLedger."Entry No." := EntryNo;
                         TempolalyLedger."Ref. Entry No." := ltItemLedgerEntry."Entry No.";
                         TempolalyLedger.INSERT;
+
                     end;
 
                 end;
@@ -123,6 +124,7 @@ report 56151 "Stock Card Detail New"
                         TempolalyLedger."Entry No." := EntryNo;
                         TempolalyLedger."Ref. Entry No." := ltItemLedgerEntry."Entry No.";
                         TempolalyLedger.INSERT;
+
                     end;
 
                 end;
@@ -174,6 +176,7 @@ report 56151 "Stock Card Detail New"
                         TempolalyLedger."TPP TransferOrder" := TRUE;
                         TempolalyLedger."TPP Check Positive" := FALSE;
                         TempolalyLedger.INSERT;
+
                     END;
 
                 end;
