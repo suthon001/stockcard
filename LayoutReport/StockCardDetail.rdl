@@ -11,6 +11,115 @@
       <rd:DataSourceID>eb62f8e2-ae7c-4cf1-b191-f9787273e0fe</rd:DataSourceID>
     </DataSource>
   </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="Name_CompanyInfo">
+          <DataField>Name_CompanyInfo</DataField>
+        </Field>
+        <Field Name="BeginDate">
+          <DataField>BeginDate</DataField>
+        </Field>
+        <Field Name="EndDate">
+          <DataField>EndDate</DataField>
+        </Field>
+        <Field Name="LocationFilter">
+          <DataField>LocationFilter</DataField>
+        </Field>
+        <Field Name="Dim1Filter">
+          <DataField>Dim1Filter</DataField>
+        </Field>
+        <Field Name="No_Item">
+          <DataField>No_Item</DataField>
+        </Field>
+        <Field Name="Description_Item">
+          <DataField>Description_Item</DataField>
+        </Field>
+        <Field Name="BaseUnitofMeasure_Item">
+          <DataField>BaseUnitofMeasure_Item</DataField>
+        </Field>
+        <Field Name="CostingMethod">
+          <DataField>CostingMethod</DataField>
+        </Field>
+        <Field Name="InvPostingGroup">
+          <DataField>InvPostingGroup</DataField>
+        </Field>
+        <Field Name="InvPostingDescription">
+          <DataField>InvPostingDescription</DataField>
+        </Field>
+        <Field Name="BeginingQty">
+          <DataField>BeginingQty</DataField>
+        </Field>
+        <Field Name="BeginingQtyFormat">
+          <DataField>BeginingQtyFormat</DataField>
+        </Field>
+        <Field Name="BeginingAmt">
+          <DataField>BeginingAmt</DataField>
+        </Field>
+        <Field Name="BeginingAmtFormat">
+          <DataField>BeginingAmtFormat</DataField>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+        </Field>
+        <Field Name="DocumentNo">
+          <DataField>DocumentNo</DataField>
+        </Field>
+        <Field Name="DocDescription">
+          <DataField>DocDescription</DataField>
+        </Field>
+        <Field Name="DocLocation">
+          <DataField>DocLocation</DataField>
+        </Field>
+        <Field Name="QtyIn">
+          <DataField>QtyIn</DataField>
+        </Field>
+        <Field Name="QtyInFormat">
+          <DataField>QtyInFormat</DataField>
+        </Field>
+        <Field Name="AmtIn">
+          <DataField>AmtIn</DataField>
+        </Field>
+        <Field Name="AmtInFormat">
+          <DataField>AmtInFormat</DataField>
+        </Field>
+        <Field Name="QtyOut">
+          <DataField>QtyOut</DataField>
+        </Field>
+        <Field Name="QtyOutFormat">
+          <DataField>QtyOutFormat</DataField>
+        </Field>
+        <Field Name="AmtOut">
+          <DataField>AmtOut</DataField>
+        </Field>
+        <Field Name="AmtOutFormat">
+          <DataField>AmtOutFormat</DataField>
+        </Field>
+        <Field Name="QtyBal">
+          <DataField>QtyBal</DataField>
+        </Field>
+        <Field Name="QtyBalFormat">
+          <DataField>QtyBalFormat</DataField>
+        </Field>
+        <Field Name="AmtBal">
+          <DataField>AmtBal</DataField>
+        </Field>
+        <Field Name="AmtBalFormat">
+          <DataField>AmtBalFormat</DataField>
+        </Field>
+        <Field Name="UnitCost">
+          <DataField>UnitCost</DataField>
+        </Field>
+        <Field Name="UnitCostFormat">
+          <DataField>UnitCostFormat</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -182,6 +291,11 @@
                             <LeftBorder>
                               <Style>Solid</Style>
                             </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -2550,6 +2664,12 @@
       </Page>
     </ReportSection>
   </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -2589,113 +2709,4 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Fields>
-        <Field Name="Name_CompanyInfo">
-          <DataField>Name_CompanyInfo</DataField>
-        </Field>
-        <Field Name="BeginDate">
-          <DataField>BeginDate</DataField>
-        </Field>
-        <Field Name="EndDate">
-          <DataField>EndDate</DataField>
-        </Field>
-        <Field Name="LocationFilter">
-          <DataField>LocationFilter</DataField>
-        </Field>
-        <Field Name="Dim1Filter">
-          <DataField>Dim1Filter</DataField>
-        </Field>
-        <Field Name="No_Item">
-          <DataField>No_Item</DataField>
-        </Field>
-        <Field Name="Description_Item">
-          <DataField>Description_Item</DataField>
-        </Field>
-        <Field Name="BaseUnitofMeasure_Item">
-          <DataField>BaseUnitofMeasure_Item</DataField>
-        </Field>
-        <Field Name="CostingMethod">
-          <DataField>CostingMethod</DataField>
-        </Field>
-        <Field Name="InvPostingGroup">
-          <DataField>InvPostingGroup</DataField>
-        </Field>
-        <Field Name="InvPostingDescription">
-          <DataField>InvPostingDescription</DataField>
-        </Field>
-        <Field Name="BeginingQty">
-          <DataField>BeginingQty</DataField>
-        </Field>
-        <Field Name="BeginingQtyFormat">
-          <DataField>BeginingQtyFormat</DataField>
-        </Field>
-        <Field Name="BeginingAmt">
-          <DataField>BeginingAmt</DataField>
-        </Field>
-        <Field Name="BeginingAmtFormat">
-          <DataField>BeginingAmtFormat</DataField>
-        </Field>
-        <Field Name="DocumentDate">
-          <DataField>DocumentDate</DataField>
-        </Field>
-        <Field Name="DocumentNo">
-          <DataField>DocumentNo</DataField>
-        </Field>
-        <Field Name="DocDescription">
-          <DataField>DocDescription</DataField>
-        </Field>
-        <Field Name="DocLocation">
-          <DataField>DocLocation</DataField>
-        </Field>
-        <Field Name="QtyIn">
-          <DataField>QtyIn</DataField>
-        </Field>
-        <Field Name="QtyInFormat">
-          <DataField>QtyInFormat</DataField>
-        </Field>
-        <Field Name="AmtIn">
-          <DataField>AmtIn</DataField>
-        </Field>
-        <Field Name="AmtInFormat">
-          <DataField>AmtInFormat</DataField>
-        </Field>
-        <Field Name="QtyOut">
-          <DataField>QtyOut</DataField>
-        </Field>
-        <Field Name="QtyOutFormat">
-          <DataField>QtyOutFormat</DataField>
-        </Field>
-        <Field Name="AmtOut">
-          <DataField>AmtOut</DataField>
-        </Field>
-        <Field Name="AmtOutFormat">
-          <DataField>AmtOutFormat</DataField>
-        </Field>
-        <Field Name="QtyBal">
-          <DataField>QtyBal</DataField>
-        </Field>
-        <Field Name="QtyBalFormat">
-          <DataField>QtyBalFormat</DataField>
-        </Field>
-        <Field Name="AmtBal">
-          <DataField>AmtBal</DataField>
-        </Field>
-        <Field Name="AmtBalFormat">
-          <DataField>AmtBalFormat</DataField>
-        </Field>
-        <Field Name="UnitCost">
-          <DataField>UnitCost</DataField>
-        </Field>
-        <Field Name="UnitCostFormat">
-          <DataField>UnitCostFormat</DataField>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-    </DataSet>
-  </DataSets>
 </Report>

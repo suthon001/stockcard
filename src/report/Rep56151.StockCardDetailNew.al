@@ -34,10 +34,10 @@ report 56151 "Stock Card Detail New"
                 column(BeginingAmt; BegAmt) { }
                 trigger OnPreDataItem()
                 begin
-                    if not ExpacCost then
-                        SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
-                    else
-                        SETRANGE("Posting Date", BeginDate, EndDate);
+                    // if not ExpacCost then
+                    //      SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
+                    //   else
+                    SETRANGE("Posting Date", BeginDate, EndDate);
                     IF LocationFilter <> '' THEN
                         SETFILTER("Location Code", LocationFilter);
 
@@ -49,10 +49,10 @@ report 56151 "Stock Card Detail New"
 
                 begin
                     ltItemLedgerEntry.GET("Item Ledger Entry No.");
-                    if not ExpacCost then
-                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
-                    else
-                        ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    // if not ExpacCost then
+                    //     ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
+                    // else
+                    ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
                     ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Purchase then
                         if not ExpacCost then
@@ -67,6 +67,7 @@ report 56151 "Stock Card Detail New"
                         EntryNo += 1;
                         TempolalyLedger.INIT;
                         TempolalyLedger.TRANSFERFIELDS(ltItemLedgerEntry);
+                        TempolalyLedger."Posting Date" := "Posting Date";
                         if ExpacCost then
                             TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card" + ltItemLedgerEntry."Cost Amount (Expected)"
                         else
@@ -75,7 +76,6 @@ report 56151 "Stock Card Detail New"
                         TempolalyLedger."Entry No." := EntryNo;
                         TempolalyLedger."Ref. Entry No." := ltItemLedgerEntry."Entry No.";
                         TempolalyLedger.INSERT;
-
                     end;
 
                 end;
@@ -86,10 +86,10 @@ report 56151 "Stock Card Detail New"
                 DataItemLink = "Item No." = FIELD("No.");
                 trigger OnPreDataItem()
                 begin
-                    if not ExpacCost then
-                        SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
-                    else
-                        SETRANGE("Posting Date", BeginDate, EndDate);
+                    // if not ExpacCost then
+                    //     SETFILTER("Posting Date", '%1..%2', NewDate, EndDate)
+                    // else
+                    SETRANGE("Posting Date", BeginDate, EndDate);
                     IF LocationFilter <> '' THEN
                         SETFILTER("Location Code", LocationFilter);
                 end;
@@ -100,10 +100,10 @@ report 56151 "Stock Card Detail New"
 
                 begin
                     ltItemLedgerEntry.GET("Item Ledger Entry No.");
-                    if not ExpacCost then
-                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
-                    else
-                        ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    // if not ExpacCost then
+                    //     ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
+                    // else
+                    ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
                     ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Sale then
                         if not ExpacCost then
@@ -116,6 +116,7 @@ report 56151 "Stock Card Detail New"
                         EntryNo += 1;
                         TempolalyLedger.INIT;
                         TempolalyLedger.TRANSFERFIELDS(ltItemLedgerEntry);
+                        TempolalyLedger."Posting Date" := "Posting Date";
                         if ExpacCost then
                             TempolalyLedger."TPP Cost Amount Stock Card 2" := ltItemLedgerEntry."TPP Cost Amount Stock Card" + ltItemLedgerEntry."Cost Amount (Expected)"
                         else
