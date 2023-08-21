@@ -50,9 +50,11 @@ report 56151 "Stock Card Detail New"
                 begin
                     ltItemLedgerEntry.GET("Item Ledger Entry No.");
                     // if not ExpacCost then
-                    //     ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
+                    //     
                     // else
                     ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    if not ExpacCost then
+                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Purchase then
                         if not ExpacCost then
@@ -104,6 +106,8 @@ report 56151 "Stock Card Detail New"
                     //     ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate)
                     // else
                     ltItemLedgerEntry.SETRANGE("Posting Date", BeginDate, EndDate);
+                    if not ExpacCost then
+                        ltItemLedgerEntry.SETFILTER("TPP Date Filter", '%1..%2', NewDate, EndDate);
                     ltItemLedgerEntry.CalcFields("TPP Cost Amount Stock Card", "Cost Amount (Expected)");
                     if ltItemLedgerEntry."Entry Type" = ltItemLedgerEntry."Entry Type"::Sale then
                         if not ExpacCost then
